@@ -3,6 +3,7 @@ import pygame
 class SoundManager:
     def __init__(self):
         pygame.mixer.init()
+        pygame.mixer.set_num_channels(32) 
         self.sounds = {}
         self.channels = {}
 
@@ -57,3 +58,5 @@ sound_manager.load_sound('player_walk', 'assets/sounds/walking-96582.mp3')
 sound_manager.load_sound('player_run', 'assets/sounds/person-running-loop-245173.mp3')
 sound_manager.load_sound('ambient', 'assets/sounds/forest-atmosphere-localization-poland-320813.mp3')
 sound_manager.load_sound('round_start', 'assets/sounds/round_start.mp3')
+sound_manager.load_sound('level_up', 'assets/sounds/level_up.mp3')
+sound_manager.load_sound('exp_pickup', 'assets/sounds/orb.mp3')

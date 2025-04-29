@@ -9,12 +9,12 @@ class Zombie(pygame.sprite.Sprite):
         self.state = None
         self.health = 100
         self.max_health = 100
-        self.speed = 1
+        self.speed = 0.8
         self.attack_range = 30
         self.attacking = False
         self.is_dead = False
         self.death_animation_done = False
-        self.damage = 10
+        self.damage = 5
         self.animation_timer = 0
         self.animation_cooldown = 150
         self.facing_right = True

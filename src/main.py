@@ -6,6 +6,7 @@ from zombie.zombie import Zombie
 from sound import sound_manager
 from ui import UIManager
 from wave_manager import WaveManager
+from upgrade import LevelUp
 
 def main():
     pygame.init()
@@ -22,6 +23,8 @@ def main():
     player = Player(WIDTH // 2, HEIGHT // 2)
     ui_manager = UIManager(screen)
     wave_manager = WaveManager(player)
+    level_up_ui = LevelUp(screen, player)
+
     wave_manager.start_round()
 
     running = True
@@ -34,27 +37,36 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == pygame.KEYDOWN:
-                if not game_over:
-                    if event.key == pygame.K_SPACE:
-                        player.attack()
+            if game_over and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    main()
+                    return
+                elif event.key == pygame.K_e:
+                    running = False
 
-                if game_over:
-                    if event.key == pygame.K_r:
-                        main()
-                        return
-                    elif event.key == pygame.K_e:
-                        running = False
+            if not game_over and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not player.ready_to_level_up:
+                    player.attack()
+
+            if player.ready_to_level_up:
+                level_up_ui.visible = True
+                level_up_ui.handle_event(event)
 
         screen.fill(BACKGROUND_COLOR)
 
         if not game_over:
-            player.update(dt)
-            wave_manager.update(dt)
-            wave_manager.enemies.draw(screen)
-            player.draw(screen)
+            if not player.ready_to_level_up:
+                player.update(dt)
+                wave_manager.update(dt)
+                wave_manager.exp_orbs.update(player)
 
+            wave_manager.enemies.draw(screen)
+            wave_manager.exp_orbs.draw(screen)
+            player.draw(screen)
             ui_manager.draw_wave_info(wave_manager.round_num, wave_manager.preparation_time)
+
+            if player.ready_to_level_up:
+                level_up_ui.draw()
 
             if player.is_dead and player.death_animation_done:
                 game_over = True

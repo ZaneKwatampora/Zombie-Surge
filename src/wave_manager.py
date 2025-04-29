@@ -1,6 +1,9 @@
 import pygame
 from sound import sound_manager
 from zombie.zombie import Zombie
+import random  
+from settings import WIDTH, HEIGHT
+from exp import ExpOrb
 
 class WaveManager:
     def __init__(self, player):
@@ -9,16 +12,20 @@ class WaveManager:
         self.enemies = pygame.sprite.Group()
         self.preparation_time = 0
         self.wave_complete = False
+        self.exp_orbs = pygame.sprite.Group()
 
     def start_round(self):
         zombie_count = 3 + (self.round_num - 1) * 5
         self.enemies.empty()
 
         for i in range(zombie_count):
-            zombie = Zombie(100 + i * 50, 100 + i * 50, self.player)
-            zombie.speed += 1 * self.round_num
+            x = random.randint(50, WIDTH - 50)
+            y = random.randint(50, HEIGHT - 50)
+            zombie = Zombie(x, y, self.player)
+
+            zombie.speed += 0.3 * self.round_num
             zombie.health += 100 * self.round_num
-            zombie.damage += 30 * self.round_num
+            zombie.damage += 10 * self.round_num
             self.enemies.add(zombie)
 
         print(f"Round {self.round_num}: {len(self.enemies)} zombies spawned")
@@ -43,9 +50,13 @@ class WaveManager:
         for enemy in list(self.enemies):
             enemy.update(dt)
             if enemy.is_dead and enemy.death_animation_done:
+                orb = ExpOrb(enemy.rect.centerx, enemy.rect.centery)
+                self.exp_orbs.add(orb)
                 self.enemies.remove(enemy)
 
         if self.player.is_attacking:
             for enemy in self.enemies:
                 if self.player.rect.colliderect(enemy.rect.inflate(2, 2)):
                     enemy.take_damage(10)
+        
+        self.exp_orbs.update(self.player)
