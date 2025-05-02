@@ -1,5 +1,5 @@
 import pygame
-from sound import sound_manager
+from src.sound import sound_manager
 
 class Zombie(pygame.sprite.Sprite):
     def __init__(self, x, y, target):

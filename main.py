@@ -1,0 +1,90 @@
+import pygame
+import sys
+from src.settings import WIDTH, HEIGHT, FPS
+from src.player.player import Player
+from src.sound import sound_manager
+from src.ui import UIManager
+from src.wave_manager import WaveManager
+from src.upgrade import LevelUp
+import asyncio
+
+async def main():
+    print('game started')
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Zombie Surge")
+    clock = pygame.time.Clock()
+    
+    BACKGROUND_IMAGE = pygame.image.load("assets/images/a260cda2bf8746a.png").convert()
+    BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
+
+    sound_manager.play_background_music(
+        "assets/sounds/forest-atmosphere-localization-poland-320813.mp3",
+        volume=0.1,
+        loop=-1
+    )
+
+    player = Player(WIDTH // 2, HEIGHT // 2)
+    ui_manager = UIManager(screen)
+    wave_manager = WaveManager(player)
+    level_up_ui = LevelUp(screen, player)
+
+    wave_manager.start_round()
+
+    running = True
+    game_over = False
+
+
+    while running:
+        print('game running')
+        dt = clock.tick(FPS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+            if game_over and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    main()
+                    return
+                elif event.key == pygame.K_e:
+                    running = False
+
+            if not game_over and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not player.ready_to_level_up:
+                    player.attack()
+
+            if player.ready_to_level_up:
+                level_up_ui.visible = True
+                level_up_ui.handle_event(event)
+
+        screen.blit(BACKGROUND_IMAGE, (0, 0))
+
+
+        if not game_over:
+            if not player.ready_to_level_up:
+                player.update(dt)
+                wave_manager.update(dt)
+                wave_manager.exp_orbs.update(player)
+
+            wave_manager.enemies.draw(screen)
+            wave_manager.exp_orbs.draw(screen)
+            player.draw(screen)
+            ui_manager.draw_wave_info(wave_manager.round_num, wave_manager.preparation_time)
+
+            if player.ready_to_level_up:
+                level_up_ui.draw()
+
+            if player.is_dead and player.death_animation_done:
+                game_over = True
+                sound_manager.stop_background_music()
+        else:
+            ui_manager.draw_game_over()
+
+        pygame.display.flip()
+
+    pygame.quit()
+    sys.exit()
+    await asyncio.sleep(0)
+    
+asyncio.run(main())

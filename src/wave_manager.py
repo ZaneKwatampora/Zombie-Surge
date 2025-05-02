@@ -1,9 +1,9 @@
 import pygame
-from sound import sound_manager
-from zombie.zombie import Zombie
+from src.sound import sound_manager
+from src.zombie.zombie import Zombie
 import random  
-from settings import WIDTH, HEIGHT
-from exp import ExpOrb
+from src.settings import WIDTH, HEIGHT
+from src.exp import ExpOrb
 
 class WaveManager:
     def __init__(self, player):

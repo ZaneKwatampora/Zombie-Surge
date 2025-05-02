@@ -1,5 +1,5 @@
 import pygame
-from sound import sound_manager
+from src.sound import sound_manager
 
 class ExpOrb(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -7,7 +7,7 @@ class ExpOrb(pygame.sprite.Sprite):
         original_image = pygame.image.load('assets/images/exp_orb.png').convert_alpha()
         self.image = pygame.transform.smoothscale(original_image, (16, 16))
         self.rect = self.image.get_rect(center=(x, y))
-        self.exp_value = 10
+        self.exp_value = 13
 
     def update(self, player):
         if self.rect.colliderect(player.rect):

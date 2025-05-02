@@ -1,5 +1,5 @@
 import pygame
-from sound import sound_manager
+from src.sound import sound_manager
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -140,7 +140,7 @@ class Player(pygame.sprite.Sprite):
         self.level += 1
         self.exp_to_next = int(self.exp_to_next * 1.5)
         sound_manager.play_sound("level_up", volume=0.4)
-        self.ready_to_level_up = True  # Allow UI to pop up
+        self.ready_to_level_up = True
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -186,11 +186,11 @@ class Player(pygame.sprite.Sprite):
         bar_x = self.rect.centerx - bar_width // 2
         bar_y = self.rect.top - 15
 
-        # Health bar
+        # health
         pygame.draw.rect(surface, (255, 0, 0), (bar_x, bar_y, bar_width, bar_height))
         pygame.draw.rect(surface, (0, 255, 0), (bar_x, bar_y, bar_width * health_ratio, bar_height))
 
-        # EXP bar
+        # experience
         exp_ratio = self.exp / self.exp_to_next
         exp_bar_y = bar_y + bar_height + 2
         pygame.draw.rect(surface, (50, 50, 50), (bar_x, exp_bar_y, bar_width, 4))

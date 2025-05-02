@@ -14,7 +14,7 @@ class LevelUp:
 
         screen_width, screen_height = self.screen.get_size()
         spacing = 50
-        self.card_size = (200, 290)  # Increased size
+        self.card_size = (200, 290)
         total_width = len(self.base_images) * self.card_size[0] + (len(self.base_images) - 1) * spacing
         start_x = (screen_width - total_width) // 2
 
@@ -25,8 +25,7 @@ class LevelUp:
             rect = scaled_img.get_rect(topleft=(x, y))
             self.card_data[key] = {
                 'image': scaled_img,
-                'rect': rect,
-                'hovered': False
+                'rect': rect
             }
 
     def draw(self):
@@ -35,20 +34,9 @@ class LevelUp:
             overlay.fill((0, 0, 0, 180))
             self.screen.blit(overlay, (0, 0))
 
-            mouse_pos = pygame.mouse.get_pos()
-            for name, data in self.card_data.items():
-                rect = data['rect']
-                if rect.collidepoint(mouse_pos):
-                    data['hovered'] = True
-                    enlarged_size = (int(self.card_size[0] * 1.15), int(self.card_size[1] * 1.15))
-                    enlarged = pygame.transform.scale(data['image'], enlarged_size)
-                    enlarged_rect = enlarged.get_rect(center=rect.center)
-                    self.screen.blit(enlarged, enlarged_rect)
-                    pygame.draw.rect(self.screen, (255, 255, 0), enlarged_rect, 3)
-                else:
-                    data['hovered'] = False
-                    self.screen.blit(data['image'], rect)
-                    pygame.draw.rect(self.screen, (200, 200, 200), rect, 2)
+            for data in self.card_data.values():
+                self.screen.blit(data['image'], data['rect'])
+                pygame.draw.rect(self.screen, (200, 200, 200), data['rect'], 2)
 
     def handle_event(self, event):
         if not self.visible:
