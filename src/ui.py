@@ -7,7 +7,7 @@ class UIManager:
         self.small_font = pygame.font.Font(None, 36)
 
     def draw_game_over(self):
-        overlay = pygame.Surface(self.screen.get_size())
+        overlay = pygame.Surface(self.screen.get_size()) 
         overlay.set_alpha(180)
         overlay.fill((0, 0, 0))
         self.screen.blit(overlay, (0, 0))
