@@ -25,6 +25,9 @@ A top-down pixel art zombie survival game built with Python and Pygame. Survive 
 
 ### Download
 
+**DISCLAIMER**
+> If Windows shows a security warning, click "More Info" and then "Run Anyway".
+
 1. Go to the [Releases Page](https://github.com/ZaneKwatampora/Zombie-Surge/releases/tag/download).
 2. Download the `.zip` file for the latest release:  
    **`Zombie-Surge.zip`**
