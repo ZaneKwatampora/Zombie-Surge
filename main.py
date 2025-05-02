@@ -6,10 +6,8 @@ from src.sound import sound_manager
 from src.ui import UIManager
 from src.wave_manager import WaveManager
 from src.upgrade import LevelUp
-import asyncio
 
-async def main():
-    print('game started')
+def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Zombie Surge")
@@ -36,7 +34,6 @@ async def main():
 
 
     while running:
-        print('game running')
         dt = clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -85,6 +82,6 @@ async def main():
 
     pygame.quit()
     sys.exit()
-    await asyncio.sleep(0)
     
-asyncio.run(main())
+if __name__ == "__main__":
+    main()
