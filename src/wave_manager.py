@@ -15,7 +15,7 @@ class WaveManager:
         self.exp_orbs = pygame.sprite.Group()
 
     def start_round(self):
-        zombie_count = 3 + (self.round_num - 1) * 5
+        zombie_count = 3 + (self.round_num - 1) * 3
         self.enemies.empty()
 
         for i in range(zombie_count):
@@ -30,7 +30,7 @@ class WaveManager:
 
         print(f"Round {self.round_num}: {len(self.enemies)} zombies spawned")
 
-        sound_manager.play_sound("round_start", volume=0.7)
+        sound_manager.play_sound("round_start", volume=1)
         self.preparation_time = 0
 
     def update(self, dt):

@@ -92,7 +92,7 @@ class Zombie(pygame.sprite.Sprite):
 
                     if self.attacking and not self.is_dead:
                         self.target.take_damage(self.damage)
-                        sound_manager.play_sound('zombie_attack', volume=0.5)
+                        sound_manager.play_sound('zombie_attack', volume=0.3)
 
             self.image = self.frames[self.current_frame]
             
@@ -109,4 +109,4 @@ class Zombie(pygame.sprite.Sprite):
             self.health -= amount
             if self.health <= 0:
                 self.is_dead = True
-                sound_manager.play_sound('zombie_die', volume=0.7)
+                sound_manager.play_sound('zombie_die', volume=0.3)

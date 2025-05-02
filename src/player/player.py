@@ -105,7 +105,7 @@ class Player(pygame.sprite.Sprite):
             self.is_attacking = True
             self.attack_timer = 0
             self.set_state("attack")
-            sound_manager.play_sound("player_attack", volume=0.6)
+            sound_manager.play_sound("player_attack", volume=0.3)
 
     def take_damage(self, amount):
         if not self.is_dead and not self.is_hurt:
@@ -139,7 +139,7 @@ class Player(pygame.sprite.Sprite):
         self.exp -= self.exp_to_next
         self.level += 1
         self.exp_to_next = int(self.exp_to_next * 1.5)
-        sound_manager.play_sound("level_up", volume=0.7)
+        sound_manager.play_sound("level_up", volume=0.4)
         self.ready_to_level_up = True  # Allow UI to pop up
 
     def update(self, dt):

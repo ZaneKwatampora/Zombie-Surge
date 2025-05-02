@@ -12,6 +12,6 @@ class ExpOrb(pygame.sprite.Sprite):
     def update(self, player):
         if self.rect.colliderect(player.rect):
             player.gain_exp(self.exp_value)
-            sound_manager.sounds["exp_pickup"].set_volume(0.6)
+            sound_manager.sounds["exp_pickup"].set_volume(0.3)
             sound_manager.sounds["exp_pickup"].play()
             self.kill()

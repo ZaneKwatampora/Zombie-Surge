@@ -1,6 +1,6 @@
 import pygame
 import sys
-from settings import WIDTH, HEIGHT, FPS, BACKGROUND_COLOR
+from settings import WIDTH, HEIGHT, FPS
 from player.player import Player
 from zombie.zombie import Zombie
 from sound import sound_manager
@@ -13,6 +13,9 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Zombie Surge")
     clock = pygame.time.Clock()
+    
+    BACKGROUND_IMAGE = pygame.image.load("assets/images/a260cda2bf8746a.png").convert()
+    BACKGROUND_IMAGE = pygame.transform.scale(BACKGROUND_IMAGE, (WIDTH, HEIGHT))
 
     sound_manager.play_background_music(
         "assets/sounds/forest-atmosphere-localization-poland-320813.mp3",
@@ -52,7 +55,8 @@ def main():
                 level_up_ui.visible = True
                 level_up_ui.handle_event(event)
 
-        screen.fill(BACKGROUND_COLOR)
+        screen.blit(BACKGROUND_IMAGE, (0, 0))
+
 
         if not game_over:
             if not player.ready_to_level_up:
